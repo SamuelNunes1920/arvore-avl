@@ -77,9 +77,6 @@ public class AvlTree {
             	if (t.right == null) {
             		return t.left;
             	}
-            int chaveMenor = t.right;
-            t.key = chaveMenor;
-            t.right = remove(chaveMenor, t.right);
             return balance (t);
             }
         }
