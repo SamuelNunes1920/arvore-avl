@@ -68,6 +68,7 @@ public class AvlTree {
             	return balance (t);
             }
             else{
+            	AvlNode aux = t;
             	if (t.left == null && t.right == null) {
             		return null;
             	}
@@ -77,7 +78,14 @@ public class AvlTree {
             	if (t.right == null) {
             		return t.left;
             	}
-            return balance (t);
+            	//Caso o nó tenha dois filhos
+                else if( t.left != null && t.right != null ){
+                    t.key = minDir( t.right ).key;
+                    t.right = remove( t.key, t.right);
+                }
+                else
+                t = ( t.left != null ) ? t.left : t.right;
+                return balance(t);
             }
         }
         
