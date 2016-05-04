@@ -1,3 +1,5 @@
+package avl;
+
 //package RaulJoaquim;
 
 //Classe que implementa o no da arvore (elemento tipo inteiro) 
