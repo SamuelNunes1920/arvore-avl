@@ -80,6 +80,18 @@ public class AvlTree {
             return balance (t);
             }
         }
+        
+        //Metodo auxiliar para o metodo da remocao. Acha o no de menor chave 
+        //ao lado direito do no dado
+        protected AvlNode minDir(AvlNode t){
+        if (t.left == null){
+            return t;
+        } 
+        else{ 
+            t = t.left;
+            return minDir(t);
+            }
+        }
 
         public AvlNode balance (AvlNode t) {
             if ( getFactor(t) == 2 ) {
