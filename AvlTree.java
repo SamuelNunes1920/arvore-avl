@@ -1,11 +1,17 @@
 /* Universidade Federal do Pará
  * Instituto de Ciências Exatas e Naturais
  * Análise e Projetos de Algoritmos
- * Implementação da Árvore AVL - Código Base (Nome do cara)
- * Versão 1.0
+ * Implementação da Árvore AVL - Código Base
+ * Versão 1.0 - 2016
+ * @Autores: Joahannes Costa <joahannes@ufpa.br>
+ 			 Danileno Rosario <
+ 			 Ericson Sarmento <
+ 			 Allan Costa <
 */
+import java.util.*;
 public class AvlTree {
         private AvlNode root = null;
+        private int local;
         public AvlTree( ) {
             root = null;
         }
@@ -39,27 +45,28 @@ public class AvlTree {
             return true;
         }
         private AvlNode insert (int x, AvlNode t) {
-            if( t == null )
-                t = new AvlNode( x, null, null );
+            if( t == null ){
+            	t = new AvlNode( x, null, null );
+            }
+            else if( x == t.key) System.out.println("Chave já presente!");
             else if( x<t.key ) t.left = insert( x, t.left );
             else if( x>t.key) t.right = insert( x, t.right );
             t = balance (t);
             return t;
         }
-	
-	//REMOCAO
-	public boolean remove (int x) {
+
+    //REMOCAO
+		public void remove (int x) {
             root = remove (x, root);
-            return true;
         }
         private AvlNode remove (int x, AvlNode t) {
             if( t == null ){
-            	System.out.println("NENHUM REMOVIDO!");
+            	System.out.println("Não econtrado!");
             	return null;
             }
             if (x<t.key) {
 				t.left = remove(x, t.left);
-				System.out.println("Removido da Direita!");
+				System.out.println("Removido da Esquerda!");
 				return balance (t);            	
             }
             else if (x>t.key) {
@@ -68,7 +75,7 @@ public class AvlTree {
             	return balance (t);
             }
             else{
-            	AvlNode aux = t;
+                AvlNode aux = t;
             	if (t.left == null && t.right == null) {
             		return null;
             	}
@@ -78,7 +85,7 @@ public class AvlTree {
             	if (t.right == null) {
             		return t.left;
             	}
-            	//Caso o nó tenha dois filhos
+                //Caso o nó tenha dois filhos
                 else if( t.left != null && t.right != null ){
                     t.key = minDir( t.right ).key;
                     t.right = remove( t.key, t.right);
@@ -88,7 +95,7 @@ public class AvlTree {
                 return balance(t);
             }
         }
-        
+
         //Metodo auxiliar para o metodo da remocao. Acha o no de menor chave 
         //ao lado direito do no dado
         protected AvlNode minDir(AvlNode t){
