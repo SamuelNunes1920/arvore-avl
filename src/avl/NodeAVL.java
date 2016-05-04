@@ -1,3 +1,8 @@
+package avl;
+
+
+import avl.Node;
+
 public class NodeAVL extends Node{
 	public int balanco;
 

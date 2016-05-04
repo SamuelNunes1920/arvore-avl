@@ -1,3 +1,6 @@
+package avl;
+
+import avl.ArvoreAvl;
 import java.util.*;
 public class TestaArvoreAVL {
 	public static void main(String[] args) {
