@@ -47,28 +47,42 @@ public class AvlTree {
             return t;
         }
 	
-	/*REMOÇÃO
-	public void remover(int k) {
-		removerAVL(this.raiz, k);
-	}
-	
-	public void removerAVL(AvlNode atual, int k) {
-		if (atual == null) {
-			return;
-
-		} else {
-
-			if (atual.key > k) {
-				removerAVL(atual.left, k);
-
-			} else if (atual.key < k) {
-				removerAVL(atual.right, k);
-
-			} else if (atual.key == k) {
-				removerNoEncontrado(atual);
-			}
-		}
-	}*/
+	//REMOCAO
+	public boolean remove (int x) {
+            root = remove (x, root);
+            return true;
+        }
+        private AvlNode remove (int x, AvlNode t) {
+            if( t == null ){
+            	System.out.println("NENHUM REMOVIDO!");
+            	return null;
+            }
+            if (x<t.key) {
+				t.left = remove(x, t.left);
+				System.out.println("Removido da Direita!");
+				return balance (t);            	
+            }
+            else if (x>t.key) {
+            	t.right = remove(x, t.right);
+            	System.out.println("Removido da Direita!");
+            	return balance (t);
+            }
+            else{
+            	if (t.left == null && t.right == null) {
+            		return null;
+            	}
+            	if (t.left == null) {
+            		return t.right;            		
+            	}
+            	if (t.right == null) {
+            		return t.left;
+            	}
+            int chaveMenor = t.right;
+            t.key = chaveMenor;
+            t.right = remove(chaveMenor, t.right);
+            return balance (t);
+            }
+        }
 
         public AvlNode balance (AvlNode t) {
             if ( getFactor(t) == 2 ) {
