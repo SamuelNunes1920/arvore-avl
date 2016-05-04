@@ -1,8 +1,12 @@
 /* Universidade Federal do Pará
  * Instituto de Ciências Exatas e Naturais
  * Análise e Projetos de Algoritmos
- * Implementação da Árvore AVL - Código Base (Nome do cara)
- * Versão 1.0
+ * Implementação da Árvore AVL - Código Base
+ * Versão 1.0 - 2016
+ * @Autores: Joahannes Costa <joahannes@ufpa.br>
+ 			 Danileno Rosario <
+ 			 Ericson Sarmento <
+ 			 Allan Costa <
 */
 import java.util.*;
 public class Main {
@@ -31,10 +35,12 @@ public class Main {
 		System.out.print("\nBuscar a chave: ");
 		int buscaChave1 = entrada.nextInt();
 		tree.search(buscaChave1);
-
-		System.out.print("\n*-------- INSERÇÃO DE CHAVE --------*\n");
-		tree.insert(10);
-		tree.remove
+		
+		//Remocao
+		System.out.print("\n*-------- REMOVENDO CHAVE --------*\n");
+		System.out.print("\nRemover a chave: ");
+		int removeChave = entrada.nextInt();
+		tree.remove(removeChave);
 		tree.displayTree();
 	}
 }
