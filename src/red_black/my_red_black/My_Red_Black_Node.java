@@ -24,7 +24,7 @@ public class My_Red_Black_Node {
                               filho_esquerda = null, 
                               filho_direita = null;
     private int dado;
-    private Color cor = null;
+    private Color cor = Color.black;
     
     /*
        Contrutor padrão:
@@ -55,6 +55,10 @@ public class My_Red_Black_Node {
         return filho_esquerda;
     }
 
+    public My_Red_Black_Node getPai() {
+        return pai;
+    }
+    
     
     /* Interface pública setters */
     
@@ -90,7 +94,7 @@ public class My_Red_Black_Node {
             this.filho_direita.pai = null;
         }
         if (filho != null) {
-            filho.removeFilho();
+            filho.removeNo();
             filho.pai = this;
         }
         this.filho_direita = filho;
@@ -122,7 +126,7 @@ public class My_Red_Black_Node {
             this.filho_esquerda.pai = null;
         }
         if (filho != null) {
-            filho.removeFilho();
+            filho.removeNo();
             filho.pai = this;
         }
         this.filho_esquerda = filho; 
@@ -136,7 +140,7 @@ public class My_Red_Black_Node {
      * Remove (limpa) todas as relações de um nó.
      * Porém se ele for a raiz não faz nada.
      */
-    public void removeFilho() {
+    public void removeNo() {
         if (pai != null) { //Só será se não tiver pai
             if (pai.filho_esquerda == this) {
                 pai.filho_esquerda = null;
