@@ -23,7 +23,7 @@ import red_black.RedBlackTree;
 public class RedBlackTreeViewer extends JFrame {
     RedBlackTree tree = new RedBlackTree();
 
-    JFrame frame = new JFrame("Red Black Tree Viewer");
+    JFrame frame = new JFrame("Árvore Rubro-Negra");
     JTextField valueField = new JTextField(40);
     JPanel buttonPanel = new JPanel();
     BinaryTreePanel panel = new BinaryTreePanel(null, 40, 40);
@@ -63,7 +63,7 @@ public class RedBlackTreeViewer extends JFrame {
      */
     public RedBlackTreeViewer() {
         JPanel valuePanel = new JPanel();
-        valuePanel.add(new JLabel("Value: "));
+        valuePanel.add(new JLabel("Valor: "));
         valuePanel.add(valueField);
 
         JPanel controlPanel = new JPanel();
@@ -83,17 +83,17 @@ public class RedBlackTreeViewer extends JFrame {
         frame.getContentPane().add(messageLine, "South");
         frame.pack();
 
-        new Operation("Add") {
+        new Operation("Adicionar") {
             protected void execute(String value) {
                 tree.add(value);}};
-        new Operation("Add All") {
+//        new Operation("Add All") {
+//            protected void execute(String value) {
+//                for (String s: value.split("\\s+")) tree.add(s);}};
+        new Operation("Pesquisar") {
             protected void execute(String value) {
-                for (String s: value.split("\\s+")) tree.add(s);}};
-        new Operation("Lookup") {
-            protected void execute(String value) {
-                messageLine.setText("The value \"" + value + "\" is " +
-                    (tree.contains(value) ? "" : "not ") + "found");}};
-        new Operation("Remove") {
+                messageLine.setText("O valor \"" + value + "\" é " +
+                    (tree.contains(value) ? "" : "não foi ") + "encontrado");}};
+        new Operation("Remover") {
             protected void execute(String value) {
                 tree.remove(value);}};
     }

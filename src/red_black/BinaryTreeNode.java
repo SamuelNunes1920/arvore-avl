@@ -81,5 +81,6 @@ package red_black;
      */
     public interface Visitor {
         <E> void visit(BinaryTreeNode<E> node);
+        
     }
 }

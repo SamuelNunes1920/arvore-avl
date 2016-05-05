@@ -11,14 +11,17 @@
 */
 package red_black.my_red_black;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.Map;
+import red_black.BinaryTreeNode;
+import java.lang.reflect.Field;
 
 
 /**
  *  @author Ericson Sarmento
  * 
  */
-public class My_Red_Black_Node {
+public class My_Red_Black_Node implements Arvore_Binaria{
     
     private My_Red_Black_Node pai = null, 
                               filho_esquerda = null, 
@@ -135,7 +138,7 @@ public class My_Red_Black_Node {
    
     
     /*Métodos utilitários*/
-        
+          
     /**
      * Remove (limpa) todas as relações de um nó.
      * Porém se ele for a raiz não faz nada.
@@ -152,6 +155,91 @@ public class My_Red_Black_Node {
     }
     
     
+    Color getNodeColor(My_Red_Black_Node node) {
+        try {
+            Field field = node.getClass().getDeclaredField("cor");
+            return (Color)field.get(node);
+        } catch (Exception e) {
+            return Color.yellow;
+        }
+    }
+    
+    private int depth(My_Red_Black_Node node) {
+        return (node.getPai() == null) ? 0 : 1 + depth(node.getPai());
+    }
+    
+    
+     /**
+     * Realiza visita em Pre-Ordem.
+     */
+    
+//    public void traversePreorder(BinaryTreeNode.Visitor visitor) {
+//        visitor.visit(this);
+//        if (filho_esquerda != null) filho_esquerda.traversePreorder(visitor);
+//        if (filho_direita != null) filho_direita.traversePreorder(visitor);
+//    }
+
+    /**
+     * Realiza visita em Pos-Ordem.
+     */
+//    public void caminhamentoEmPosOrdem(final Graphics g, final Map<My_Red_Black_Node, Point> coordenadas ){
+//                if ( filho_esquerda != null) filho_esquerda.caminhamentoEmPosOrdem(g, coordenadas);
+//                if (filho_direita != null) filho_direita.caminhamentoEmPosOrdem(g, coordenadas);
+//                String dado = Integer.toString(this.getDado());
+//                Point center = (Point)coordenadas.get(this);
+//                if (this.getPai() != null) {
+//                    Point parentPoint = (Point)coordenadas.get(this.getPai());
+//                    g.setColor(Color.black);
+//                    g.drawLine(center.x, center.y, parentPoint.x, parentPoint.y);
+//                }
+//                FontMetrics fm = g.getFontMetrics();
+//                Rectangle r = fm.getStringBounds(dado, g).getBounds();
+//                r.setLocation(center.x - r.width/2, center.y - r.height/2);
+//                Color color = getNodeColor(this);
+//                Color textColor =
+//                    (color.getRed() + color.getBlue() + color.getGreen() < 382)
+//                    ? Color.white
+//                    : Color.black;
+//                g.setColor(color);
+//                g.fillRect(r.x - 2 , r.y - 2, r.width + 4, r.height + 4);
+//                g.setColor(textColor);
+//                g.drawString(dado, r.x, r.y + r.height);
+//     }
+
+    @Override
+    public void traversePostorder(Visitor visitor) {
+        if (filho_esquerda != null) filho_esquerda.traversePostorder(visitor);
+        if (filho_direita != null) filho_direita.traversePostorder(visitor);
+        visitor.visit(this);
+    }
+    
+    
+    /**
+     * Realiza visita em Ordem.
+     */
+//     public void caminhamentoEmOrdem(int gridwidth, int gridheight, final Map<My_Red_Black_Node, Point> coordenadas){
+//        if (this.filho_esquerda != null) this.filho_esquerda.caminhamentoEmOrdem(gridwidth, gridheight, coordenadas);
+//        int x = gridwidth; 
+//        coordenadas.put(this, new Point(x, gridheight * (depth(this)+1)));
+//        x += gridwidth;
+//        if (this.filho_direita != null) this.filho_direita.caminhamentoEmOrdem(gridwidth, gridheight, coordenadas);
+//     }
+    
+     @Override
+     public void traverseInorder(Visitor visitor) {
+        if (filho_esquerda != null) filho_esquerda.traverseInorder(visitor);
+        visitor.visit(this);
+        if (filho_direita != null) filho_direita.traverseInorder(visitor);
+    }
+
+    @Override
+    public void traversePreorder(Visitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+
     
     
 }
