@@ -111,14 +111,24 @@
                 }
             }
     	//Busca maior
-    	public int buscaMaior(AvlNode t){
-            if(t != null){
-                while(t.right != null){
-                    t = t.right;
-                }
+    	public int buscaMaior(AvlNode root) {
+            AvlNode maior = root;
+            while (maior.right != null) {
+                maior = maior.right;
             }
-            return t.key;
+            System.out.print("Maior chave: " + maior.key);
+            return maior.key;
+        }
+
+        //Busca menor
+        public int buscaMenor(AvlNode root) {
+            AvlNode menor = root;
+            while (menor.left != null) {
+                menor = menor.left;
             }
+            System.out.print("\nMenor chave: " + menor.key);
+            return menor.key;
+        }
 
             public AvlNode balance (AvlNode t) {
                 if ( getFactor(t) == 2 ) {
