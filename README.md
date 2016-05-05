@@ -1,6 +1,6 @@
 # arvore-avl
 Implementação da Árvore Balanceada AVL para disciplina de Análise e Projeto de Algoritmos, do Programa de Pós-Graduação em Ciência da Computação - Universidade Federal do Pará (UFPA).
-Funções:
+- Funções:
   - Inserção;
   - Remoção;
   - Busca;
