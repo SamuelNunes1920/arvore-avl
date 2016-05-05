@@ -62,7 +62,7 @@
 			System.out.print("\n");
 			
 			//BuscaMaior & BuscaMenor		
-			System.out.print("\n*-------- BUSCA MAIOR E MENOR --------*\n");		  
+			System.out.print("*-------- BUSCA MAIOR E MENOR --------*\n");		  
 			tree.buscaMaior(tree.root);
 			tree.buscaMenor(tree.root);
 			System.out.println("\n");
