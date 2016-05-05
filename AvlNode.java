@@ -1,8 +1,13 @@
 /* Universidade Federal do Pará
  * Instituto de Ciências Exatas e Naturais
  * Análise e Projetos de Algoritmos
- * Implementação da Árvore AVL - Código Base (Nome do cara)
- * Versão 1.0
+ * Implementação da Árvore AVL - Código Base
+ * Versão 1.0 - 05/05/2016
+ * @Autores:
+ * Joahannes Costa <joahannes@gmail.br>
+ * Danileno Rosario <lenomeireles@gmail.com>
+ * Ericson Sarmento <ericsonsarmento@gmail.com>
+ * Allan Costa <allandoug@gmail.com>
 */
 public class AvlNode {
     	protected int height;       // Height = Balanco
@@ -17,4 +22,4 @@ public class AvlNode {
             right = rt;
             height   = 0;
         }
-    }
+}
