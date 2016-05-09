@@ -42,13 +42,14 @@ public class RedBlackTree extends BinarySearchTree {
      * by the new item. Overrides BinarySearchTree.add because the tree needs to
      * be adjusted after insertion.
      */
-    public void add(Object data) {
+    public void add(String data) {
         if (root == null) {
             root = new Node(data);
         }
         BinaryTreeNode n = root;
         while (true) {
-            int comparisonResult = compare(data, n.getData());
+            int comparisonResult = compare(n.getData(), data);
+                        
             if (comparisonResult == 0) {
                 n.setData(data);
                 return;
@@ -265,4 +266,63 @@ public class RedBlackTree extends BinarySearchTree {
     private Node rightOf(Node n) {
         return n == null ? null : (Node) n.getRight();
     }
+
+    public String getMaior(){
+        BinaryTreeNode n = root;
+        while( n.getRight() != null){
+            n = n.getRight();
+        }
+        
+        return (String) n.getData();
+    }
+    
+    public String getMenor(){
+        BinaryTreeNode n = root;
+        while( n.getLeft() != null){
+            n = n.getLeft();
+        }
+        
+        return (String) n.getData();
+    }
+    
+    
+   public void displayTree() {
+        if (this.getRoot() == null) {
+            System.out.println("Árvore vazia!");
+            return;
+        }
+        String separator = String.valueOf("  |__");
+        System.out.println(this.getRoot().getData() + "(" + "-" + ")");
+        displaySubTree(this.getRoot().getRight(), separator);
+        displaySubTree(this.getRoot().getLeft(), separator);
+    }
+
+    private void displaySubTree(BinaryTreeNode node, String separator) {
+        if( node != null){
+            BinaryTreeNode pai = node.getParent();
+            if (pai.getLeft() == node) {
+                System.out.println(separator + node.getData() + "(" + "-" + ")" + " (ESQ)");
+            } else {
+                System.out.println(separator + node.getData() + "(" + "-" + ")" + " (DIR)");
+            }
+            displaySubTree(node.getLeft(), "     " + separator);
+            displaySubTree(node.getRight(), "     " + separator);
+        }
+    }
+
+
+    public static void main(String[] args) {
+         RedBlackTree tree = new RedBlackTree();
+        
+        for(int i = 0; i<= 5; i++)
+            tree.add(i);
+        
+            
+        
+        tree.displayTree();
+    }
+
+
+
+
 }

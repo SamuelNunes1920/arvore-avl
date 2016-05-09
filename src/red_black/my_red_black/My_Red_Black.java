@@ -28,13 +28,13 @@ public class My_Red_Black {
     /*Get e Set para a Raiz da árvore*/
     
     /**
-     * Faz um nós qualquer dado virar a raiz da árvore.
+     * Faz um nó qualquer dado virar a raiz da árvore.
      **/
     public void setRaiz(My_Red_Black_Node no) {
         if (no != null) {
             no.removeNo();
         }
-        raiz = no;
+        this.raiz = no;
     }
 
     /**
@@ -94,7 +94,7 @@ public class My_Red_Black {
         My_Red_Black_Node oldRight = n.getFilho_direita();
         n.setFilho_direita(oldRight.getFilho_esquerda());
         if (n.getPai() == null) {
-            raiz = oldRight;
+            this.setRaiz(oldRight);
         } else if (n.getPai().getFilho_esquerda() == n) {
             n.getPai().setFilho_esquerda(oldRight);
         } else {
@@ -113,7 +113,7 @@ public class My_Red_Black {
         My_Red_Black_Node oldLeft = n.getFilho_esquerda();
         n.setFilho_esquerda(oldLeft.getFilho_direita());
         if (n.getPai() == null) {
-            raiz = oldLeft;
+            this.setRaiz(oldLeft);
         } else if (n.getPai().getFilho_esquerda() == n) {
             n.getPai().setFilho_esquerda(oldLeft);
         } else {
@@ -135,12 +135,7 @@ public class My_Red_Black {
         return n;
     }
    
-     /**
-     * Adds a single dado item to the tree. If there is already an item in the
-     * tree that compares equal to the item being inserted, it is "overwritten"
-     * by the new item. Overrides BinarySearchTree.add because the tree needs to
-     * be adjusted after insertion.
-     */
+    
     public void adiciona(int dado) {
         if (raiz == null) {
             raiz = new My_Red_Black_Node(dado);
@@ -154,14 +149,14 @@ public class My_Red_Black {
             } else if (comparisonResult < 0) {
                 if (n.getFilho_esquerda() == null) {
                     n.setFilho_esquerda(new My_Red_Black_Node(dado));
-                    balanceamentoDeInsercao((My_Red_Black_Node) n.getFilho_esquerda());
+                    balanceamentoDeInsercao(n.getFilho_esquerda());
                     break;
                 }
                 n = n.getFilho_esquerda();
             } else { // comparisonResult > 0
                 if (n.getFilho_direita() == null) {
                     n.setFilho_direita(new My_Red_Black_Node(dado));
-                    balanceamentoDeInsercao((My_Red_Black_Node) n.getFilho_direita());
+                    balanceamentoDeInsercao(n.getFilho_direita());
                     break;
                 }
                 n = n.getFilho_direita();
@@ -169,22 +164,19 @@ public class My_Red_Black {
         }
     }
   
-     /**
-     * Removes the node containing the given value. Does nothing if there is no
-     * such node.
-     */
+    
     public void remove(int dado) {
         My_Red_Black_Node no = (My_Red_Black_Node) noContendo(dado);
         if (no == null) {
-            // No such object, do nothing.
+    
             return;
         } else if (no.getFilho_esquerda() != null && no.getFilho_direita() != null) {
-            // Node has two children, Copy predecessor dado in.
+    
             My_Red_Black_Node predecessor = predecessor(no);
             no.setDado(predecessor.getDado());
             no = (My_Red_Black_Node) predecessor;
         }
-        // At this point node has zero or one child
+    
         My_Red_Black_Node pullUp;
         
         if(filhoEsquerdoDe(no) == null)
@@ -193,7 +185,7 @@ public class My_Red_Black {
             pullUp = filhoEsquerdoDe(no);
          
         if (pullUp != null) {
-            // Splice out node, and adjust if pullUp is a double black.
+    
             if (no == raiz) {
                 setRaiz(pullUp);
             } else if (no.getPai().getFilho_esquerda() == no) {
@@ -205,10 +197,10 @@ public class My_Red_Black {
                 balanceamentoDeRemocao(pullUp);
             }
         } else if (no == raiz) {
-            // Nothing to pull up when deleting a raiz means we emptied the tree
+    
             setRaiz(null);
         } else {
-            // The node being deleted acts as a double black sentinel
+    
             if (ePreto(no)) {
                 balanceamentoDeRemocao(no);
             }
@@ -217,28 +209,26 @@ public class My_Red_Black {
     }
     
      /**
-     * Classic algorithm for fixing up a tree after inserting a node.
+     * Previsão de casos de balanceamento da árvore rubro-negra após
+     * uma inserção.
      */
     private void balanceamentoDeInsercao(My_Red_Black_Node n) {
-        // Step 1: color the node red
+        // Caso 1: Todo nó inserido tem a cor vermelha
         setCor(n, Color.red);
 
-        // Step 2: Correct double red problems, if they exist
-        if (n != null && n != raiz && eVermelho(paiDe(n))) {
-
-            // Step 2a (simplest): Recolor, and move up to see if more work
-            // needed
-            if (eVermelho(irmaoDe(paiDe(n)))) {
+        // Caso 2: Pai vermelho com tio vermelho, realiza mudança de cores
+        if ((n != null) && (n != this.getRaiz()) && (eVermelho(paiDe(n)))) {
+              if (eVermelho(tioDe(n))) {
                 setCor(paiDe(n), Color.black);
-                setCor(irmaoDe(paiDe(n)), Color.black);
+                setCor(tioDe(n), Color.black);
                 setCor(avoDe(n), Color.red);
                 balanceamentoDeInsercao(avoDe(n));
             }
 
-            // Step 2b: Restructure for a parent who is the left child of the
-            // grandparent. This will require a single right rotation if n is
-            // also
-            // a left child, or a left-right rotation otherwise.
+            // Caso 3a ou 3b: Pai do lado esquerdo do Avo, 
+            //com filho do lado esquerdo ou filho do lado direito.
+            // Se o filho estiver do lado esquerdo faz rotação simples direita,
+            // Se o filho estiver do lado direito faz rotação dupla a esquerda.
             else if (paiDe(n) == filhoEsquerdoDe(avoDe(n))) {
                 if (n == filhoDireitoDe(paiDe(n))) {
                     rotacaoEsquerda(n = paiDe(n));
@@ -248,11 +238,11 @@ public class My_Red_Black {
                 rotacaoDireita(avoDe(n));
             }
 
-            // Step 2c: Restructure for a parent who is the right child of the
-            // grandparent. This will require a single left rotation if n is
-            // also
-            // a right child, or a right-left rotation otherwise.
-            else if (paiDe(n) == filhoEsquerdoDe(avoDe(n))) {
+            // Passo 3b ou 3c: Quando o pai é filho direito do avo, 
+            // com filho esquerdo ou filho direito.             
+            // Se for filho direito faz rotação simples a esquerda,
+            // Se for filho esquerdo faz rotação dupla a esquerda.
+            else if (paiDe(n) == filhoDireitoDe(avoDe(n))) {
                 if (n == filhoEsquerdoDe(paiDe(n))) {
                     rotacaoDireita(n = paiDe(n));
                 }
@@ -262,44 +252,43 @@ public class My_Red_Black {
             }
         }
 
-        // Step 3: Color the raiz black
+        //Passo base: Pinta a Raiz de preto
         setCor((My_Red_Black_Node) raiz, Color.black);
     }
     
-     /**
-     * Classic algorithm for fixing up a tree after removing a node; the
-     * parameter to this method is the node that was pulled up to where the
-     * removed node was.
-     */
+    /**
+     *  Previsão de casos de balancemaneto da árvores rubro-negra após
+     *  uma remoção.
+     * @param n 
+     */ 
     private void balanceamentoDeRemocao(My_Red_Black_Node n) {
-        while (n != raiz && ePreto(n)) {
+         
+        while((n != this.getRaiz()) && ePreto(n)) {
             if (n == filhoEsquerdoDe(paiDe(n))) {
-                // Pulled up node is a left child
-                My_Red_Black_Node irmao = filhoDireitoDe(paiDe(n));
-                if (eVermelho(irmao)) {
-                    setCor(irmao, Color.black);
+                My_Red_Black_Node sibling = filhoDireitoDe(paiDe(n));
+                if (eVermelho(sibling)) {
+                    setCor(sibling, Color.black);
                     setCor(paiDe(n), Color.red);
                     rotacaoEsquerda(paiDe(n));
-                    irmao = filhoDireitoDe(paiDe(n));
+                    sibling = filhoDireitoDe(paiDe(n));
                 }
-                if (ePreto(filhoEsquerdoDe(irmao)) && ePreto(filhoDireitoDe(irmao))) {
-                    setCor(irmao, Color.red);
+                if (ePreto(filhoEsquerdoDe(sibling)) && ePreto(filhoDireitoDe(sibling))) {
+                    setCor(sibling, Color.red);
                     n = paiDe(n);
                 } else {
-                    if (ePreto(filhoDireitoDe(irmao))) {
-                        setCor(filhoEsquerdoDe(irmao), Color.black);
-                        setCor(irmao, Color.red);
-                        rotacaoDireita(irmao);
-                        irmao = filhoDireitoDe(paiDe(n));
+                    if (ePreto(filhoDireitoDe(sibling))) {
+                        setCor(filhoEsquerdoDe(sibling), Color.black);
+                        setCor(sibling, Color.red);
+                        rotacaoDireita(sibling);
+                        sibling = filhoDireitoDe(paiDe(n));
                     }
-                    setCor(irmao, corDe(paiDe(n)));
+                    setCor(sibling, corDe(paiDe(n)));
                     setCor(paiDe(n), Color.black);
-                    setCor(filhoDireitoDe(irmao), Color.black);
+                    setCor(filhoEsquerdoDe(sibling), Color.black);
                     rotacaoEsquerda(paiDe(n));
-                    n = (My_Red_Black_Node) raiz;
+                    n = this.getRaiz();
                 }
             } else {
-                // pulled up node is a right child
                 My_Red_Black_Node sibling = filhoEsquerdoDe(paiDe(n));
                 if (eVermelho(sibling)) {
                     setCor(sibling, Color.black);
@@ -321,10 +310,11 @@ public class My_Red_Black {
                     setCor(paiDe(n), Color.black);
                     setCor(filhoEsquerdoDe(sibling), Color.black);
                     rotacaoDireita(paiDe(n));
-                    n = (My_Red_Black_Node) raiz;
+                    n = this.getRaiz();
                 }
             }
         }
+        //Regra base: pinta a raiz de preto
         setCor(n, Color.black);
     }
       
@@ -338,7 +328,7 @@ public class My_Red_Black {
 
     private boolean eVermelho(My_Red_Black_Node n) {
     
-        if (n != null && corDe(n) == Color.red)
+        if ((n != null) && (corDe(n) == Color.red))
             return true;
         else
             return false;
@@ -347,7 +337,7 @@ public class My_Red_Black {
 
     private boolean ePreto(My_Red_Black_Node n) {
        
-        if (n != null && corDe(n) == Color.black)
+        if((n != null) && (corDe(n) == Color.black))
             return true;
         else
             return false;
@@ -358,13 +348,22 @@ public class My_Red_Black {
         if (n != null)
             n.setCor(c);
     }
+    
+    private My_Red_Black_Node tioDe(My_Red_Black_Node n){
+      
+      if ((n == null) || (n.getPai() == null))  
+          return null;
+      else  
+        return irmaoDe(paiDe(n));  
+        
+    }
 
     private My_Red_Black_Node paiDe(My_Red_Black_Node n) {
        
         if( n == null)
           return null;
         else
-          return (My_Red_Black_Node) n.getPai();
+          return n.getPai();
         
     }
 
@@ -373,7 +372,7 @@ public class My_Red_Black {
         if( n == null || n.getPai() == null)
             return null;
         else
-            return (My_Red_Black_Node) n.getPai().getPai();
+            return n.getPai().getPai();
     }
 
     private My_Red_Black_Node irmaoDe(My_Red_Black_Node n) {
@@ -382,9 +381,9 @@ public class My_Red_Black {
             return null;
         else
             if( n == n.getPai().getFilho_esquerda())
-                return (My_Red_Black_Node) n.getPai().getFilho_direita();
+                return n.getPai().getFilho_direita();
             else
-                return (My_Red_Black_Node) n.getPai().getFilho_esquerda();
+                return n.getPai().getFilho_esquerda();
     }
 
     private My_Red_Black_Node filhoEsquerdoDe(My_Red_Black_Node n) {
@@ -392,7 +391,7 @@ public class My_Red_Black {
         if( n == null)
             return null;
         else
-            return (My_Red_Black_Node) n.getFilho_esquerda();
+            return n.getFilho_esquerda();
     }
 
     private My_Red_Black_Node filhoDireitoDe(My_Red_Black_Node n) {
@@ -400,15 +399,85 @@ public class My_Red_Black {
         if( n == null)
             return null;
         else
-            return (My_Red_Black_Node) n.getFilho_direita();
+            return n.getFilho_direita();
     }
 
+    private int getMaior(){
+        My_Red_Black_Node n = this.getRaiz();
+        while( n.getFilho_direita() != null){
+            n = n.getFilho_direita();
+        }
+        
+        return n.getDado();
+    }
+    
+     private int getMenor(){
+        My_Red_Black_Node n = this.getRaiz();
+        while( n.getFilho_esquerda() != null){
+            n = n.getFilho_esquerda();
+        }
+        
+        return n.getDado();
+    }
   
+     
+    private String transformaCor(Color cor){
+        if(cor == Color.black){
+            return "preto";
+        }
+        else
+          return "vermelho";
+    } 
+     
+     
+    public void displayTree() {
+        if (this.getRaiz() == null) {
+            System.out.println("Árvore vazia!");
+            return;
+        }
+        String separator = String.valueOf("  |__");
+        System.out.println(this.getRaiz().getDado() + "(" + transformaCor(this.getRaiz().getCor()) + ")");
+        displaySubTree(this.getRaiz().getFilho_direita(), separator);
+        displaySubTree(this.getRaiz().getFilho_esquerda(), separator);
+    }
+
+    private void displaySubTree(My_Red_Black_Node node, String separator) {
+        if( node != null){
+            My_Red_Black_Node pai = node.getPai();
+            if (pai.getFilho_esquerda() == node) {
+                System.out.println(separator + node.getDado() + "(" + transformaCor(node.getCor()) + ")" + " (ESQ)");
+            } else {
+                System.out.println(separator + node.getDado() + "(" + transformaCor(node.getCor()) + ")" + " (DIR)");
+            }
+            displaySubTree(node.getFilho_esquerda(), "     " + separator);
+            displaySubTree(node.getFilho_direita(), "     " + separator);
+        }
+    }
+      
+    
     public static void main(String[] args) {
         My_Red_Black tree = new My_Red_Black();
         
+        //for(int i = 0; i<= 5; i++)
+          //  tree.adiciona(i);
+        
+        //tree.remove(3);
+        //tree.remove(1);
+        
+        tree.adiciona(9);
+        tree.adiciona(11);
+        tree.adiciona(15);
+               
+        
+        tree.displayTree();
+        
+        System.out.println("Maior Elemento : "+tree.getMaior());
+        
+        System.out.println("Menor Elemento : "+tree.getMenor());
+        
+        System.out.println("Busca elemento 1 : "+tree.contem(1));
+        
+        
     }
-
-
-
+    
 }

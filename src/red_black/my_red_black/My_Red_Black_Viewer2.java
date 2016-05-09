@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -97,6 +98,18 @@ public class My_Red_Black_Viewer2 extends JFrame {
         new Operation("Remover") {
             protected void execute(String value) {
                 tree.remove(value);}};
+        
+        new Operation("Maior") {
+            protected void execute(String value) {
+                JOptionPane.showMessageDialog(rootPane, "Maior valor : "+tree.getMaior());
+            }};
+        
+        new Operation("Menor") {
+            protected void execute(String value) {
+                JOptionPane.showMessageDialog(rootPane, "Menor valor : "+tree.getMenor());
+            
+            }};
+        
     }
 
     /**

@@ -1,3 +1,5 @@
+package avl;
+
 /* Universidade Federal do Pará
  * Instituto de Ciências Exatas e Naturais
  * Análise e Projetos de Algoritmos
